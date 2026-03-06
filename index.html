@@ -11,9 +11,10 @@
             --text-main: #E2E2E2;
             --text-dim: #94A3B8;
             --ice-blue: #A3C1DA;
-            --soft-gold: #D4AF37; /* 琥珀金 */
+            --soft-gold: #D4AF37; 
             --warning-rose: #C08A8A;
             --border-color: #334155;
+            --glass-bg: rgba(255, 255, 255, 0.03);
         }
 
         body {
@@ -37,7 +38,6 @@
             margin-bottom: 40px;
         }
 
-        /* 標題調整為金色 */
         h1 {
             font-weight: 400;
             letter-spacing: 4px;
@@ -52,7 +52,7 @@
             letter-spacing: 1px;
         }
 
-        /* 參數設定區：4x2 配置 */
+        /* 參數設定區 */
         .config-section {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -104,6 +104,7 @@
             border-radius: 16px;
             text-align: center;
             box-shadow: 5px 5px 15px rgba(0,0,0,0.3);
+            border: 1px solid var(--border-color);
         }
 
         .stat-card h3 {
@@ -113,7 +114,6 @@
             letter-spacing: 1px;
         }
 
-        /* 起始總部位與總支出調整為金色 */
         .stat-card p {
             font-size: 2.2rem;
             font-weight: 300;
@@ -127,6 +127,8 @@
             overflow-x: auto;
             background: var(--card-bg);
             border-radius: 16px;
+            margin-bottom: 40px;
+            border: 1px solid var(--border-color);
         }
 
         table {
@@ -156,8 +158,68 @@
         .m-warning { color: var(--soft-gold); }
         .m-danger { color: var(--warning-rose); }
 
+        /* 💡 股票質押操作指南與風險警示 區域設計 */
+        .warning-section {
+            background: var(--glass-bg);
+            border: 1px solid var(--soft-gold);
+            border-radius: 20px;
+            padding: 35px;
+            margin-top: 20px;
+            backdrop-filter: blur(10px);
+        }
+
+        .warning-section h2 {
+            color: var(--soft-gold);
+            font-size: 1.4rem;
+            margin-top: 0;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            letter-spacing: 2px;
+        }
+
+        .warning-section h2::before {
+            content: "💡";
+            margin-right: 12px;
+            font-size: 1.6rem;
+        }
+
+        .warning-intro {
+            color: var(--text-main);
+            line-height: 1.7;
+            margin-bottom: 25px;
+            font-size: 1rem;
+        }
+
+        .warning-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+        }
+
+        .warning-item h3 {
+            color: var(--soft-gold);
+            font-size: 1.05rem;
+            margin-bottom: 12px;
+            border-left: 3px solid var(--soft-gold);
+            padding-left: 12px;
+        }
+
+        .warning-item p {
+            color: var(--text-dim);
+            font-size: 0.9rem;
+            line-height: 1.8;
+            margin: 0;
+            text-align: justify;
+        }
+
+        .warning-item strong {
+            color: var(--text-main);
+        }
+
         @media (max-width: 900px) {
             .config-section { grid-template-columns: repeat(2, 1fr); }
+            .warning-grid { grid-template-columns: 1fr; }
         }
         @media (max-width: 500px) {
             .config-section { grid-template-columns: 1fr; }
@@ -239,6 +301,37 @@
             <tbody></tbody>
         </table>
     </div>
+
+    <div class="warning-section">
+        <h2>股票質押操作指南與風險警示</h2>
+        <p class="warning-intro">這套財務導航系統的核心在於<strong>「利差交易」</strong>（用低利貸款換取高複利成長）。在實際執行前，請務必詳閱以下四點關鍵說明：</p>
+        
+        <div class="warning-grid">
+            <div class="warning-item">
+                <h3>1. 機構差異與法規限制</h3>
+                <p><strong>銀行 vs. 證券商：</strong>不同機構對於質押的期限、成數、標的要求（如是否為 0050 成分股）及利率計算方式皆不相同。<br>
+                <strong>自行評估：</strong>投資人應針對不同券商與銀行的方案進行評估，選擇最適合自己資產組合的管道。</p>
+            </div>
+            <div class="warning-item">
+                <h3>2. 契約展延（借新還舊）</h3>
+                <p><strong>約期限制：</strong>質押通常為 <strong>半年至 1 年一約</strong>。<br>
+                <strong>展延機制：</strong>合約到期時，需辦理展延（續約）手續。<br>
+                <strong>不還本金前提：</strong>只要維持率維持在安全水位，且擔保品價值穩定，機構通常會允許「借新還舊」，讓您僅需支付利息而無需立即歸還本金，從而維持資產的複利效應。</p>
+            </div>
+            <div class="warning-item">
+                <h3>3. 維持率與追繳風險</h3>
+                <p><strong>核心監控：</strong>維持率是這套導航系統的靈魂。<br>
+                <strong>安全水位：</strong>雖然法規斷頭線通常在 130%-140%，但建議將維持率長期保持在 <strong>250% 以上</strong>。<br>
+                <strong>追繳壓力：</strong>若市場大跌導致維持率過低，需準備額外現金回補或被迫賣出資產以保全合約，這將會中斷長期複利計畫。</p>
+            </div>
+            <div class="warning-item">
+                <h3>4. 利率變動與市場風險</h3>
+                <p><strong>利差消失風險：</strong>本系統建立在「資產報酬（如 10%） > 質押利率（如 2.5%）」的基礎上。<br>
+                <strong>極端情境：</strong>若未來進入高利率環境（如質押利率飆升至 <strong>7-8%</strong>），且市場回報低迷（如掉到 <strong>5%</strong>），「不還本」的邏輯將會失效。<br>
+                <strong>應對策略：</strong>一旦利差縮小或消失，投資人應有隨時賣出部分資產以清償債務、回歸「無槓桿提領」模式的心理準備。</p>
+            </div>
+        </div>
+    </div>
 </div>
 
 <script>
@@ -307,4 +400,3 @@ calculate();
 
 </body>
 </html>
-
