@@ -1,1 +1,310 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>退休財務導航 - Midnight Gold Edition</title>
+    <style>
+        :root {
+            --bg-color: #1A1C1E;
+            --card-bg: #24272A;
+            --text-main: #E2E2E2;
+            --text-dim: #94A3B8;
+            --ice-blue: #A3C1DA;
+            --soft-gold: #D4AF37; /* 琥珀金 */
+            --warning-rose: #C08A8A;
+            --border-color: #334155;
+        }
+
+        body {
+            font-family: 'Inter', 'PingFang TC', 'Microsoft JhengHei', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            margin: 0;
+            padding: 40px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .container {
+            max-width: 1100px;
+            width: 100%;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        /* 標題調整為金色 */
+        h1 {
+            font-weight: 400;
+            letter-spacing: 4px;
+            color: var(--soft-gold);
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+
+        .subtitle {
+            color: var(--text-dim);
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+        }
+
+        /* 參數設定區：4x2 配置 */
+        .config-section {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .input-group {
+            background: var(--card-bg);
+            padding: 15px 20px;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+        }
+
+        .input-group label {
+            display: block;
+            font-size: 0.75rem;
+            color: var(--text-dim);
+            margin-bottom: 8px;
+            text-transform: uppercase;
+        }
+
+        .input-group input {
+            width: 100%;
+            background: transparent;
+            border: none;
+            border-bottom: 1px solid var(--border-color);
+            color: white;
+            font-size: 1.1rem;
+            outline: none;
+            padding: 5px 0;
+        }
+
+        .input-group input:focus {
+            border-color: var(--ice-blue);
+        }
+
+        /* 核心績效指標卡片 */
+        .summary-dashboard {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .stat-card {
+            background: var(--card-bg);
+            padding: 25px;
+            border-radius: 16px;
+            text-align: center;
+            box-shadow: 5px 5px 15px rgba(0,0,0,0.3);
+        }
+
+        .stat-card h3 {
+            font-size: 0.8rem;
+            color: var(--text-dim);
+            margin: 0 0 10px 0;
+            letter-spacing: 1px;
+        }
+
+        /* 起始總部位與總支出調整為金色 */
+        .stat-card p {
+            font-size: 2.2rem;
+            font-weight: 300;
+            margin: 0;
+            color: var(--soft-gold);
+        }
+
+        /* 數據表格 */
+        .table-container {
+            width: 100%;
+            overflow-x: auto;
+            background: var(--card-bg);
+            border-radius: 16px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.85rem;
+        }
+
+        th {
+            background-color: rgba(0,0,0,0.2);
+            color: var(--text-dim);
+            padding: 20px;
+            text-align: right;
+            font-weight: 400;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        td {
+            padding: 15px 20px;
+            text-align: right;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        tr:hover { background-color: rgba(255,255,255,0.02); }
+
+        .m-safe { color: var(--ice-blue); }
+        .m-warning { color: var(--soft-gold); }
+        .m-danger { color: var(--warning-rose); }
+
+        @media (max-width: 900px) {
+            .config-section { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (max-width: 500px) {
+            .config-section { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>退休財務導航</h1>
+        <div class="subtitle">複利增長 × 質押活化 ＝ 可持續的退休現金流</div>
+    </header>
+
+    <div class="config-section">
+        <div class="input-group">
+            <label>初始資產 (萬)</label>
+            <input type="number" id="initAssets" value="1250">
+        </div>
+        <div class="input-group">
+            <label>年化報酬率 (%)</label>
+            <input type="number" id="roi" value="10">
+        </div>
+        <div class="input-group">
+            <label>通膨率 (%)</label>
+            <input type="number" id="inflation" value="2">
+        </div>
+        <div class="input-group">
+            <label>年生活費 (萬)</label>
+            <input type="number" id="annualSpend" value="50">
+        </div>
+        
+        <div class="input-group">
+            <label>退休年紀</label>
+            <input type="number" id="retireAge" value="43">
+        </div>
+        <div class="input-group">
+            <label>平均餘命</label>
+            <input type="number" id="endAge" value="85">
+        </div>
+        <div class="input-group">
+            <label>質押比例 (%)</label>
+            <input type="number" id="leverageRate" value="30">
+        </div>
+        <div class="input-group">
+            <label>質押利率 (%)</label>
+            <input type="number" id="loanInterest" value="2.5">
+        </div>
+    </div>
+
+    <div class="summary-dashboard">
+        <div class="stat-card">
+            <h3>起始總部位 (含質押)</h3>
+            <p id="totalPortfolioDisplay">0 萬</p>
+        </div>
+        <div class="stat-card">
+            <h3>總支出 (預估)</h3>
+            <p id="totalCostDisplay">0 萬</p>
+        </div>
+        <div class="stat-card">
+            <h3>最終淨資產 (餘命)</h3>
+            <p id="finalNetWorthDisplay">0 萬</p>
+        </div>
+    </div>
+
+    <div class="table-container">
+        <table id="resultTable">
+            <thead>
+                <tr>
+                    <th style="text-align: center;">年齡</th>
+                    <th>年初總擔保品</th>
+                    <th>負債金額</th>
+                    <th>維持率</th>
+                    <th>年淨收益 (扣利息)</th>
+                    <th>年度支出</th>
+                    <th>年末淨資產</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+function calculate() {
+    const initAssets = parseFloat(document.getElementById('initAssets').value) || 0;
+    const roi = (parseFloat(document.getElementById('roi').value) || 0) / 100;
+    const inflation = (parseFloat(document.getElementById('inflation').value) || 0) / 100;
+    const annualSpend = parseFloat(document.getElementById('annualSpend').value) || 0;
+    const retireAge = parseInt(document.getElementById('retireAge').value) || 0;
+    const endAge = parseInt(document.getElementById('endAge').value) || 0;
+    const leverageRate = (parseFloat(document.getElementById('leverageRate').value) || 0) / 100;
+    const loanInterest = (parseFloat(document.getElementById('loanInterest').value) || 0) / 100;
+
+    const tbody = document.querySelector('#resultTable tbody');
+    tbody.innerHTML = '';
+
+    let loanAmount = initAssets * leverageRate; 
+    let currentPortfolio = initAssets + loanAmount; 
+    let currentSpend = annualSpend;
+    let totalCost = 0;
+
+    document.getElementById('totalPortfolioDisplay').innerText = currentPortfolio.toLocaleString(undefined, {maximumFractionDigits: 0}) + ' 萬';
+
+    for (let age = retireAge; age <= endAge; age++) {
+        let yearROI = currentPortfolio * roi;
+        let yearInterest = loanAmount * loanInterest;
+        let netProfit = yearROI - yearInterest;
+        let yearChange = netProfit - currentSpend;
+        
+        let maintenanceRatio = (loanAmount > 0) ? (currentPortfolio / loanAmount) * 100 : 999;
+        
+        let row = tbody.insertRow();
+        row.insertCell(0).innerHTML = `<center>${age}</center>`;
+        row.insertCell(1).innerText = currentPortfolio.toLocaleString(undefined, {maximumFractionDigits: 0});
+        row.insertCell(2).innerText = loanAmount.toLocaleString();
+        
+        let mCell = row.insertCell(3);
+        mCell.innerText = maintenanceRatio.toFixed(0) + '%';
+        if (maintenanceRatio < 160) mCell.className = 'm-danger';
+        else if (maintenanceRatio < 250) mCell.className = 'm-warning';
+        else mCell.className = 'm-safe';
+        
+        row.insertCell(4).innerText = '+' + netProfit.toLocaleString(undefined, {maximumFractionDigits: 1});
+        row.insertCell(5).innerText = '-' + currentSpend.toLocaleString(undefined, {maximumFractionDigits: 1});
+        
+        let netWorth = currentPortfolio - loanAmount;
+        row.insertCell(6).innerText = netWorth.toLocaleString(undefined, {maximumFractionDigits: 0});
+
+        totalCost += currentSpend;
+        currentPortfolio += yearChange;
+        currentSpend *= (1 + inflation);
+
+        if (age === endAge) {
+            document.getElementById('finalNetWorthDisplay').innerText = netWorth.toLocaleString(undefined, {maximumFractionDigits: 0}) + ' 萬';
+        }
+    }
+    document.getElementById('totalCostDisplay').innerText = totalCost.toLocaleString(undefined, {maximumFractionDigits: 0}) + ' 萬';
+}
+
+document.querySelectorAll('input').forEach(input => {
+    input.addEventListener('input', calculate);
+});
+
+calculate();
+</script>
+
+</body>
+</html>
 
